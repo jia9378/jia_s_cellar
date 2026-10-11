@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects — Jia He</title>
+  <meta name="description" content="All projects by Jia He: wearables, data visualization, AR and electronics.">
+  <meta property="og:title" content="Projects — Jia He">
+  <meta property="og:description" content="All projects by Jia He: wearables, data visualization, AR and electronics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400&family=Source+Serif+4:opsz,wght@8..60,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Neutral shell: the same on every page -->
+  <header class="shell-nav">
+    <a class="shell-nav__name" href="index.html">Jia He</a>
+    <nav class="shell-nav__links" aria-label="Site">
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="about.html">About</a>
+      <a href="download/Jiayang_He_Resume.pdf">Resume</a>
+      <a href="about.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <h1 class="page__title">Projects</h1>
+    <!-- A card without a page yet is a <div>. When its page exists, make it <a href="name.html">. -->
+    <div class="cards">
+      <a class="card card--lead" data-skin="cdefgab" href="cdefgab.html">
+        <div class="fig__frame" data-src="images/thumbs/cdefgab.jpg"></div>
+        <h2 class="card__title">CDEFGAB</h2>
+        <p class="card__deck">A ring-based glove that turns the movement of each finger into a piano note.</p>
+        <p class="card__tags">Wearable, IMU sensing, Python, WebSocket</p>
+      </a>
+      <div class="card" data-skin="uselace">
+        <div class="fig__frame" data-src="images/thumbs/uselace.jpg"></div>
+        <h2 class="card__title">Uselace</h2>
+        <p class="card__deck">A control glove made from a stretchable lace circuit. Hand gestures steer a 3D model in the browser.</p>
+        <p class="card__tags">Wearable, flexible circuit, Three.js</p>
+        <p class="soon">Case study coming soon</p>
+      </div>
+      <div class="card" data-skin="spirit-slices">
+        <div class="fig__frame" data-src="images/thumbs/spirit-slices.jpg"></div>
+        <h2 class="card__title">Spirit Slices</h2>
+        <p class="card__deck">A data story on alcohol consumption, told through a particle model of the brain and US survey data.</p>
+        <p class="card__tags">Data visualization, Three.js, full-stack</p>
+        <p class="soon">Case study coming soon</p>
+      </div>
+      <div class="card" data-skin="earth-rover">
+        <div class="fig__frame" data-src="images/thumbs/earth-rover.jpg"></div>
+        <h2 class="card__title">Earth Rover</h2>
+        <p class="card__deck">A solar-powered power bank built in the shape of a Mars rover.</p>
+        <p class="card__tags">Energy, electronics</p>
+        <p class="soon">Case study coming soon</p>
+      </div>
+      <div class="card" data-skin="cell-ar">
+        <div class="fig__frame" data-src="images/thumbs/cell-ar.png"></div>
+        <h2 class="card__title">Cell-AR</h2>
+        <p class="card__deck">An AR environment built in Unity, with particle systems that respond to light and sound.</p>
+        <p class="card__tags">AR, Unity</p>
+        <p class="soon">Case study coming soon</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="shell-footer">
+    <p>Jia He · ITP, NYU Tisch</p>
+    <p><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CDEFGAB — Jia He</title>
+  <meta name="description" content="A ring-based glove that turns individual finger movement into piano notes. Case study by Jia.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Neutral shell: the same on every page -->
+  <header class="shell-nav">
+    <a class="shell-nav__name" href="index.html">Jia He</a>
+    <nav class="shell-nav__links" aria-label="Site">
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="about.html">About</a>
+      <a href="download/Jiayang_He_Resume.pdf">Resume</a>
+      <a href="about.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Project region: carries its own skin via data-skin -->
+  <main class="project" data-skin="cdefgab">
+
+    <section class="hero">
+      <div class="hero__text">
+        <p class="hero__kicker">Wearable · 2026</p>
+        <h1 class="hero__title">CDEFGAB</h1>
+        <p class="hero__deck">
+          A ring-based glove that turns the movement of each finger into a piano note,
+          so playing happens in the air rather than on keys.
+        </p>
+      </div>
+
+      <figure class="hero__plot" aria-labelledby="plot-caption">
+        <div class="legend" id="legend" aria-hidden="true">
+          <span style="--c: var(--finger-thumb)">Thumb</span>
+          <span style="--c: var(--finger-index)">Index</span>
+          <span style="--c: var(--finger-middle)">Middle</span>
+          <span style="--c: var(--finger-ring)">Ring</span>
+          <span style="--c: var(--finger-pinky)">Pinky</span>
+        </div>
+        <canvas id="signal" width="1200" height="360" role="img"
+                aria-label="Five gyro traces, one per finger, each spiking once as that finger presses"></canvas>
+        <figcaption id="plot-caption">
+          Live gyro energy from the five finger IMUs. Each spike is one press.
+          <button type="button" class="replay" id="replay">Replay</button>
+        </figcaption>
+      </figure>
+
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Concept, hardware, signal processing, fabrication</dd></div>
+        <div><dt>Tools</dt><dd>Arduino, MPU-6050 IMUs, TCA9548A, Python, scikit-learn, WebSocket, Rhino</dd></div>
+        <div><dt>Duration</dt><dd>Six weeks</dd></div>
+        <div><dt>Links</dt><dd><a href="#">Repository</a> <a href="#">Demo video</a></dd></div>
+      </dl>
+    </section>
+
+    <div class="body">
+
+      <aside class="index">
+        <p class="index__title">Stages</p>
+        <ol id="stage-index">
+          <li><a href="#concept">Concept</a></li>
+          <li><a href="#semg">First attempt</a></li>
+          <li><a href="#pivot">Challenge and pivot</a></li>
+          <li><a href="#development">Development</a></li>
+          <li><a href="#websocket">Web socket</a></li>
+          <li><a href="#hardware">Hardware</a></li>
+          <li><a href="#outcome">Outcome</a></li>
+        </ol>
+      </aside>
+
+      <div class="stages">
+
+        <section class="stage" id="concept">
+          <header class="stage__head">
+            <h2>Concept</h2>
+            <span class="tag">Why a glove</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>
+                Piano keys fix the hand in one place. I wanted the note to follow the
+                finger instead, which means the instrument has to read the body directly.
+                The question that drove the whole project was how little hardware you can
+                put on a hand and still tell which finger moved.
+              </p>
+              <p>
+                Coming from jewelry, the constraint that mattered most was that whatever
+                sits on the fingers should feel like a ring, not a device.
+              </p>
+            </div>
+            <figure class="fig fig--wide">
+              <div class="fig__frame" data-src="images/cdefgab/anatomy.png"></div>
+              <figcaption>Hand anatomy references, anterior and posterior, used to place sensors.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="stage" id="semg">
+          <header class="stage__head">
+            <h2>First attempt</h2>
+            <span class="tag">sEMG on the forearm</span>
+          </header>
+          <div class="stage__grid">
+            <figure class="fig fig--wide">
+              <div class="fig__frame" data-src="images/cdefgab/semg-pipeline.png"></div>
+              <figcaption>
+                Dual-channel sEMG split into sliding windows, signal and frequency features per window,
+                five-fold cross-validation across several classifiers.
+              </figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>
+                Three weeks went into a surface-EMG system reading two channels on the forearm.
+                Offline it classified fingers at 81.6%. In the live test it fell to 52% and,
+                more importantly, it could not tell <em>when</em> a press happened.
+              </p>
+              <div class="callout">
+                <p class="callout__figure">81.6% → 52%</p>
+                <p>Offline accuracy against live accuracy, five fingers, 25 trials.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage" id="pivot">
+          <header class="stage__head">
+            <h2>Challenge and pivot</h2>
+            <span class="tag">To IMU sensors</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>
+                Three papers confirmed the gap was hardware, not code: forearm EMG blurs
+                adjacent fingers. So I moved the sensing onto the fingers themselves, one
+                small IMU at the base of each.
+              </p>
+              <p>
+                Placing sensors at the base rather than the tip keeps the fingertips and
+                joints free, so the hand moves naturally while the system still captures
+                each finger on its own.
+              </p>
+            </div>
+            <figure class="fig">
+              <div class="fig__frame fig__frame--portrait" data-src="images/cdefgab/imu-fitting.jpg"></div>
+              <figcaption>Five IMUs taped at the base of each finger for the first fitting.</figcaption>
+            </figure>
+            <figure class="fig">
+              <div class="fig__frame" data-src="images/cdefgab/imu-wiring.png"></div>
+              <figcaption>Five channels through an I2C multiplexer into one Arduino.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="stage" id="development">
+          <header class="stage__head">
+            <h2>Development</h2>
+            <span class="tag">Classification</span>
+          </header>
+          <div class="stage__grid">
+            <figure class="fig fig--wide">
+              <div class="fig__frame" data-src="images/cdefgab/imu-traces.png"></div>
+              <figcaption>Gyro energy per finger. Accuracy improved significantly once each finger had its own channel.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>
+                With a sensor per finger the problem changes from classification to peak
+                detection. A press shows up as a sharp rise in gyro energy, and the finger
+                is simply whichever channel is loudest at the peak.
+              </p>
+              <p>
+                For wearability I swapped to smaller IMU boards and a round I2C multiplexer
+                that sits flatter on the back of the hand.
+              </p>
+            </div>
+            <figure class="fig fig--wide">
+              <div class="fig__frame" data-src="images/cdefgab/serial-tests.png"></div>
+              <figcaption>Serial output from five fittings, each press resolved to a finger.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="stage" id="websocket">
+          <header class="stage__head">
+            <h2>Web socket</h2>
+            <span class="tag">Arduino → Python → browser</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>
+                In the final version the Arduino only reads the IMUs, computes gyro energy,
+                and streams it. Peak detection, finger selection, cooldown, and velocity live
+                in Python, which sends structured JSON to the browser over WebSocket. That
+                makes thresholds easy to tune without reflashing.
+              </p>
+            </div>
+
+            <figure class="fig fig--wide fig--diagram">
+              <svg viewBox="0 0 720 150" class="state" role="img" aria-labelledby="state-title">
+                <title id="state-title">Peak detection state machine: idle, tracking, fired</title>
+                <g class="state__node"><rect x="20" y="50" width="130" height="48" rx="24"/><text x="85" y="80">Idle</text></g>
+                <g class="state__node"><rect x="295" y="50" width="130" height="48" rx="24"/><text x="360" y="80">Tracking</text></g>
+                <g class="state__node"><rect x="570" y="50" width="130" height="48" rx="24"/><text x="635" y="80">Fired</text></g>
+                <path class="state__edge" d="M150 74 H295"/>
+                <text class="state__label" x="222" y="40">signal rises above peak threshold</text>
+                <path class="state__edge" d="M425 74 H570"/>
+                <text class="state__label" x="497" y="40">signal drops to drop-confirm × peak</text>
+                <path class="state__edge state__edge--return" d="M635 98 V128 H85 V98"/>
+                <text class="state__label" x="360" y="142">signal falls below reset threshold · classify</text>
+              </svg>
+              <figcaption>Peak detection logic. A press is confirmed the moment the signal starts dropping, so latency stays low.</figcaption>
+            </figure>
+
+            <div class="code-pair">
+              <pre class="code"><code><span class="c">// Arduino: read, reduce, stream</span>
+float raw = abs(dgx) + abs(dgy) + abs(dgz);
+Serial.println(raw);</code></pre>
+              <pre class="code"><code><span class="c"># Python: decide</span>
+if v > PEAK_THRESHOLD:
+    state[i] = TRACKING
+elif v < tracked_peak[i] * DROP_CONFIRM:
+    state[i] = FIRED
+    ws.send(json.dumps({"finger": i, "velocity": v}))</code></pre>
+            </div>
+
+            <figure class="fig">
+              <div class="fig__frame" data-src="images/cdefgab/browser-test.jpg"></div>
+              <figcaption>Browser live test. Each fired finger lights a key and plays a note.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="stage" id="hardware">
+          <header class="stage__head">
+            <h2>Hardware</h2>
+            <span class="tag">CAD and CAM</span>
+          </header>
+          <div class="stage__grid">
+            <figure class="fig fig--wide">
+              <div class="fig__frame" data-src="images/cdefgab/cad.png"></div>
+              <figcaption>Ring housings modelled in Rhino to hold each IMU at the finger base.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>
+                The rings are the part of the project I care most about being right. Each
+                housing is sized to the finger it sits on and holds the board so the wire
+                leaves toward the back of the hand rather than across the knuckle.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage" id="outcome">
+          <header class="stage__head">
+            <h2>Outcome</h2>
+          </header>
+          <div class="stage__grid">
+            <figure class="fig fig--wide">
+              <div class="fig__frame" data-src="images/cdefgab/final.jpg"></div>
+              <figcaption>The glove in use.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>
+                Five fingers, five notes, no keyboard. Next steps are chord detection from
+                simultaneous peaks and moving the rings from PLA to cast metal.
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /.stages -->
+    </div><!-- /.body -->
+
+    <!-- Add Previous / Next links here once the neighbouring case studies exist:
+         <a class="project-nav__link" href="uselace.html"><small>Next</small><span>Uselace</span></a> -->
+    <nav class="project-nav" aria-label="Other projects">
+      <a class="project-nav__link" href="projects.html">
+        <small>Back to</small>
+        <span>All projects</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <footer class="shell-footer">
+    <p>Jia He · ITP, NYU Tisch</p>
+    <p><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
