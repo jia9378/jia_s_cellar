@@ -7,28 +7,37 @@
   <meta name="description" content="A ring-based glove that turns individual finger movement into piano notes. Case study by Jia.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Neutral shell: the same on every page -->
-  <header class="shell-nav">
-    <a class="shell-nav__name" href="index.html">Jia He</a>
-    <nav class="shell-nav__links" aria-label="Site">
-      <a href="projects.html" aria-current="page">Projects</a>
-      <a href="about.html">About</a>
-      <a href="download/Jiayang_He_Resume.pdf">Resume</a>
-      <a href="about.html#contact">Contact</a>
-    </nav>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Masthead: the same on every inner page -->
+  <header class="masthead">
+    <div class="masthead__strip mono">
+      <span>Vol. I · No. 5</span>
+      <span data-today>New York</span>
+      <span>Wearables · Sensors · Data stories</span>
+    </div>
+    <div class="masthead__bar">
+      <a class="masthead__name" href="index.html">Jia’s Cellar</a>
+      <nav class="masthead__nav" aria-label="Site">
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="about.html">About</a>
+        <a href="download/Jiayang_He_Resume.pdf">Resume</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
   <!-- Project region: carries its own skin via data-skin -->
-  <main class="project" data-skin="cdefgab">
+  <main id="main" class="project" data-skin="cdefgab">
 
     <section class="hero">
       <div class="hero__text">
-        <p class="hero__kicker">Wearable · 2026</p>
+        <p class="hero__kicker"><span class="label label--filled">Case study</span><span class="mono">Plate I · Wearable · 2026</span></p>
         <h1 class="hero__title">CDEFGAB</h1>
         <p class="hero__deck">
           A ring-based glove that turns the movement of each finger into a piano note,
@@ -36,23 +45,26 @@
         </p>
       </div>
 
-      <figure class="hero__plot" aria-labelledby="plot-caption">
-        <div class="legend" id="legend" aria-hidden="true">
-          <span style="--c: var(--finger-thumb)">Thumb</span>
-          <span style="--c: var(--finger-index)">Index</span>
-          <span style="--c: var(--finger-middle)">Middle</span>
-          <span style="--c: var(--finger-ring)">Ring</span>
-          <span style="--c: var(--finger-pinky)">Pinky</span>
+      <figure class="plot graph crop" aria-labelledby="plot-caption">
+        <div class="plot__head">
+          <span class="label">Signal</span>
+          <div class="legend mono" id="legend" aria-hidden="true">
+            <span style="--c: var(--finger-thumb)">Thumb</span>
+            <span style="--c: var(--finger-index)">Index</span>
+            <span style="--c: var(--finger-middle)">Middle</span>
+            <span style="--c: var(--finger-ring)">Ring</span>
+            <span style="--c: var(--finger-pinky)">Pinky</span>
+          </div>
         </div>
         <canvas id="signal" width="1200" height="360" role="img"
                 aria-label="Five gyro traces, one per finger, each spiking once as that finger presses"></canvas>
         <figcaption id="plot-caption">
-          Live gyro energy from the five finger IMUs. Each spike is one press.
           <button type="button" class="replay" id="replay">Replay</button>
+          Live gyro energy from the five finger IMUs. Each spike is one press.
         </figcaption>
       </figure>
 
-      <dl class="meta">
+      <dl class="titleblock">
         <div><dt>Role</dt><dd>Concept, hardware, signal processing, fabrication</dd></div>
         <div><dt>Tools</dt><dd>Arduino, MPU-6050 IMUs, TCA9548A, Python, scikit-learn, WebSocket, Rhino</dd></div>
         <div><dt>Duration</dt><dd>Six weeks</dd></div>
@@ -63,7 +75,7 @@
     <div class="body">
 
       <aside class="index">
-        <p class="index__title">Stages</p>
+        <p class="index__title label">Stages</p>
         <ol id="stage-index">
           <li><a href="#concept">Concept</a></li>
           <li><a href="#semg">First attempt</a></li>
@@ -204,14 +216,15 @@
             <figure class="fig fig--wide fig--diagram">
               <svg viewBox="0 0 720 150" class="state" role="img" aria-labelledby="state-title">
                 <title id="state-title">Peak detection state machine: idle, tracking, fired</title>
+                <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="state__arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
                 <g class="state__node"><rect x="20" y="50" width="130" height="48" rx="24"/><text x="85" y="80">Idle</text></g>
                 <g class="state__node"><rect x="295" y="50" width="130" height="48" rx="24"/><text x="360" y="80">Tracking</text></g>
                 <g class="state__node"><rect x="570" y="50" width="130" height="48" rx="24"/><text x="635" y="80">Fired</text></g>
-                <path class="state__edge" d="M150 74 H295"/>
+                <path class="state__edge" marker-end="url(#arrow)" d="M150 74 H295"/>
                 <text class="state__label" x="222" y="40">signal rises above peak threshold</text>
-                <path class="state__edge" d="M425 74 H570"/>
+                <path class="state__edge" marker-end="url(#arrow)" d="M425 74 H570"/>
                 <text class="state__label" x="497" y="40">signal drops to drop-confirm × peak</text>
-                <path class="state__edge state__edge--return" d="M635 98 V128 H85 V98"/>
+                <path class="state__edge state__edge--return" marker-end="url(#arrow)" d="M635 98 V128 H85 V98"/>
                 <text class="state__label" x="360" y="142">signal falls below reset threshold · classify</text>
               </svg>
               <figcaption>Peak detection logic. A press is confirmed the moment the signal starts dropping, so latency stays low.</figcaption>
@@ -281,16 +294,21 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
          <a class="project-nav__link" href="uselace.html"><small>Next</small><span>Uselace</span></a> -->
     <nav class="project-nav" aria-label="Other projects">
       <a class="project-nav__link" href="projects.html">
-        <small>Back to</small>
+        <small class="mono">Back to</small>
         <span>All projects</span>
       </a>
     </nav>
 
   </main>
 
-  <footer class="shell-footer">
-    <p>Jia He · ITP, NYU Tisch</p>
-    <p><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></p>
+  <footer class="colophon">
+    <dl class="titleblock">
+      <div class="titleblock__name"><dt>Jia’s Cellar</dt><dd>Jiayang He · ITP, NYU Tisch, New York</dd></div>
+      <div><dt>Sheet</dt><dd>03 of 04 · CDEFGAB</dd></div>
+      <div><dt>Scale</dt><dd>1 : 1, worn</dd></div>
+      <div><dt>Drawn</dt><dd>J. He</dd></div>
+      <div><dt>Contact</dt><dd><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></dd></div>
+    </dl>
   </footer>
 
   <script src="script.js"></script>

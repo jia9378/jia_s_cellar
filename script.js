@@ -1,8 +1,9 @@
 /* ==========================================================
-   Project page behaviour
-   1. Hero signal plot  — draws five per-finger gyro traces, animated once on load
+   Site behaviour
+   0. Dateline          — prints today's date in the masthead strip
+   1. Signal plot       — draws five per-finger gyro traces, animated once on load
    2. Stage index       — highlights the stage currently in view
-   3. Figures           — swaps placeholders for real images when they exist
+   3. Figures, plates   — swaps placeholders for real images when they exist
    ========================================================== */
 
 (function () {
@@ -10,13 +11,22 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- 0. Dateline ---------- */
+
+  var today = new Date().toLocaleDateString("en-US", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric"
+  });
+  document.querySelectorAll("[data-today]").forEach(function (el) {
+    el.textContent = "New York, " + today;
+  });
+
   /* ---------- 1. Hero signal plot ---------- */
 
   var canvas = document.getElementById("signal");
   if (canvas && canvas.getContext) {
     var ctx = canvas.getContext("2d");
     var W = 1200, H = 360;              // logical size; CSS scales it
-    var style = getComputedStyle(canvas.closest("[data-skin]"));
+    var style = getComputedStyle(canvas.closest("[data-skin]") || document.body);
     var fingers = [
       { name: "thumb",  color: style.getPropertyValue("--finger-thumb").trim(),  peakAt: 0.14, amp: 1.6 },
       { name: "index",  color: style.getPropertyValue("--finger-index").trim(),  peakAt: 0.32, amp: 1.2 },
@@ -62,7 +72,7 @@
 
     function drawAxes() {
       ctx.clearRect(0, 0, W, H);
-      ctx.font = "12px Instrument Sans, system-ui, sans-serif";
+      ctx.font = "12px JetBrains Mono, ui-monospace, monospace";
       ctx.fillStyle = muted;
       ctx.strokeStyle = rule;
       ctx.lineWidth = 1;
@@ -72,7 +82,7 @@
         ctx.textAlign = "right";
         ctx.fillText(v, pad.l - 8, y + 4);
       });
-      // finger markers above the plot, like the coloured pins in the Figma frame
+      // finger markers above the plot, like the coloured pins in the process sheets
       fingers.forEach(function (f) {
         var x = pad.l + f.peakAt * (W - pad.l - pad.r);
         ctx.fillStyle = f.color;
@@ -164,12 +174,13 @@
     stages.forEach(function (s) { io.observe(s); });
   }
 
-  /* ---------- 3. Figures: load real images if they exist ---------- */
-  // Each .fig__frame carries data-src. If the file loads, it replaces the
-  // placeholder; if it 404s, the dashed placeholder with the path stays, so
-  // you can see exactly which image is still missing.
+  /* ---------- 3. Figures and plates: load real images if they exist ---------- */
+  // Each .fig__frame and .plate carries data-src. If the file loads, it covers
+  // the placeholder. If it 404s, a case-study figure keeps its dashed
+  // placeholder with the path, so you can see which image is still missing,
+  // and a plate keeps its typographic poster in the project's skin.
 
-  document.querySelectorAll(".fig__frame[data-src]").forEach(function (frame) {
+  document.querySelectorAll(".fig__frame[data-src], .plate[data-src]").forEach(function (frame) {
     var src = frame.getAttribute("data-src");
     var img = new Image();
     img.alt = "";
