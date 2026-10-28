@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cell-AR — Jia He</title>
+  <meta name="description" content="Cell-AR: a plant cell to enter in Unity, where light and breath trigger photosynthesis. Case study by Jia He.">
+  <meta property="og:title" content="Cell-AR — Jia He">
+  <meta property="og:description" content="Cell-AR: a plant cell to enter in Unity, where light and breath trigger photosynthesis. Case study by Jia He.">
+  <meta property="og:image" content="images/thumbs/cell-ar.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Masthead: the same on every inner page -->
+  <header class="masthead">
+    <div class="masthead__strip mono">
+      <span>Vol. I · No. 6</span>
+      <span data-today>New York</span>
+      <span>Wearables · Sensors · Data stories</span>
+    </div>
+    <div class="masthead__bar">
+      <a class="masthead__name" href="index.html">Jia’s Cellar</a>
+      <nav class="masthead__nav" aria-label="Site">
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="about.html">About</a>
+        <a href="download/Jiayang_He_Resume.pdf">Resume</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Project region: carries its own skin via data-skin.
+       Every figure is a sheet from the project's Figma page, in images/cell-ar/. -->
+  <main id="main" class="project" data-skin="cell-ar">
+
+    <section class="hero">
+      <div class="hero__text">
+        <p class="hero__kicker"><span class="label label--filled">Case study</span><span class="mono">Plate IV · AR · 2025</span></p>
+        <h1 class="hero__title">Cell-AR</h1>
+        <p class="hero__deck">A plant cell you can enter. Shine a light to open the chloroplast, blow to send carbon dioxide in, and watch photosynthesis play out.</p>
+      </div>
+
+      <figure class="fig sheet crop">
+        <a class="sheet__link" href="images/cell-ar/01-title.jpg"><img src="images/cell-ar/01-title.jpg" width="1536" height="1086" alt="Cell-AR title sheet: a translucent green 3D plant cell with nucleus, chloroplasts and mitochondria, and an Enter Cell-AR button"></a>
+        <figcaption>Title sheet: the plant cell in Unity, with its “Enter Cell-AR” button.</figcaption>
+      </figure>
+
+      <dl class="titleblock">
+        <div><dt>Type</dt><dd>AR environment</dd></div>
+        <div><dt>Software</dt><dd>Unity (C#), Cinema 4D, Rhino</dd></div>
+        <div><dt>Hardware</dt><dd>Arduino Nano, BH1750 light sensor, LM393 sound sensor</dd></div>
+        <div><dt>Fabrication</dt><dd>Laser-cut, painted and soldered leaf housing</dd></div>
+      </dl>
+    </section>
+
+    <div class="body">
+
+      <aside class="index">
+        <p class="index__title label">Stages</p>
+        <ol id="stage-index">
+          <li><a href="#inspiration">Inspiration</a></li>
+          <li><a href="#diagram">Diagram</a></li>
+          <li><a href="#hardware">Hardware input</a></li>
+          <li><a href="#assets">Asset building</a></li>
+          <li><a href="#animation">Animation and effect</a></li>
+          <li><a href="#interaction">Interaction</a></li>
+          <li><a href="#fabrication">Fabrication</a></li>
+        </ol>
+      </aside>
+
+      <div class="stages">
+
+        <section class="stage" id="inspiration">
+          <header class="stage__head">
+            <h2>Inspiration</h2>
+            <span class="tag">Research</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The project started from textbook diagrams of the plant cell and of photosynthesis, then from sketches of what each molecule should look like once it moves.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/02-inspiration.jpg"><img src="images/cell-ar/02-inspiration.jpg" width="1536" height="1086" loading="lazy" alt="Inspiration sheet: a labelled plant cell diagram, a photosynthesis membrane diagram, and hand sketches of molecules and the flow of the experience"></a>
+              <figcaption>Plant cell and photosynthesis references, with molecule sketches.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="diagram">
+          <header class="stage__head">
+            <h2>Diagram</h2>
+            <span class="tag">Two scenes</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <dl class="facts">
+                <div><dt>Scene 1 · Cell</dt><dd>Free-look camera. The “Enter Cell-AR” button releases an atom; press W to steer it and cruise the cell.</dd></div>
+                <div><dt>Prompt 1</dt><dd>Give the Cell-AR some light. The audience uses a flashlight.</dd></div>
+                <div><dt>Scene 2 · Chloroplast</dt><dd>The light opens the chloroplast scene.</dd></div>
+                <div><dt>Prompt 2</dt><dd>Give the Cell-AR some CO₂. The audience blows; CO₂ is emitted and the photosynthesis animation plays.</dd></div>
+              </dl>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/03-diagram.jpg"><img src="images/cell-ar/03-diagram.jpg" width="1536" height="1086" loading="lazy" alt="Diagram sheet: line drawings of the cell and chloroplast beside a flowchart of the two scenes, prompts and audience actions"></a>
+              <figcaption>Scene flow from cell to chloroplast.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="hardware">
+          <header class="stage__head">
+            <h2>Hardware input</h2>
+            <span class="tag">Serial communication</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>An Arduino Nano reads two sensors and talks to Unity over serial. A BH1750 light sensor sends “lux(400)” when a flashlight hits it, which switches the scene. An LM393 sound sensor sends “blow”, which starts the molecule animation.</p>
+            </div>
+            <div class="stage__text">
+              <p><code>CellerArLightAndCO2.cpp</code> runs on the board; <code>LightSensorSceneSwitch.cs</code> and <code>BlowDetectorUnity.cs</code> listen in Unity.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/04-hardware.jpg"><img src="images/cell-ar/04-hardware.jpg" width="1536" height="1086" loading="lazy" alt="Hardware input sheet: an Arduino Nano wired to BH1750 and LM393 sensors, with arrows to scene switch and molecule animation and screenshots of the scripts"></a>
+              <figcaption>Nano, light and sound sensors, and the scripts on both ends.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="assets">
+          <header class="stage__head">
+            <h2>Asset building</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The chloroplast was modelled in Cinema 4D and Rhino from microscope references, the molecules (oxygen, carbon dioxide, ADP and ATP) from their structural diagrams. The cell itself started from a bought asset.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/05-assets.jpg"><img src="images/cell-ar/05-assets.jpg" width="1536" height="1086" loading="lazy" alt="Asset building sheet: a chloroplast micrograph, molecule models, Cinema 4D and Rhino screenshots, and the bought plant cell asset"></a>
+              <figcaption>Chloroplast, molecules, Cinema 4D and Rhino models, and the bought asset.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="animation">
+          <header class="stage__head">
+            <h2>Animation and effect</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The organelles scale in rhythm: vacuole, chromatin and chloroplast. Two particle systems carry the inputs, CO₂ as gas and light as photons with trails.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/06-animation.jpg"><img src="images/cell-ar/06-animation.jpg" width="1536" height="1086" loading="lazy" alt="Animation sheet: the cell's organelles scaling, a CO2 particle system, and photons with trails entering the chloroplast"></a>
+              <figcaption>Scaling rhythm, and particle systems for CO₂ and light.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>The molecules follow the actual equations. ADP and phosphate become ATP in the light reactions; carbon dioxide goes into the chloroplast in the Calvin cycle; oxygen flies away. <code>RandomSpawner.cs</code> duplicates the animated modules at random.</p>
+            </div>
+            <pre class="code code--wide"><code><span class="c">// photosynthesis, light reactions</span>
+2 H2O + 2 NADP+ + 3 ADP + 3 Pi + light → 2 NADPH + 2 H+ + 3 ATP + O2
+<span class="c">// Calvin cycle</span>
+3 CO2 + 6 NADPH + 9 ATP + 6 H+ → G3P + 6 NADP+ + 9 ADP + 3 H2O + 8 Pi</code></pre>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/07-molecules.jpg"><img src="images/cell-ar/07-molecules.jpg" width="1536" height="1086" loading="lazy" alt="Molecule transformation sheet: the two equations with highlighted molecules, molecule diagrams, the animation in the chloroplast, and RandomSpawner code"></a>
+              <figcaption>Molecule transformation, after the photosynthesis and Calvin cycle equations.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="interaction">
+          <header class="stage__head">
+            <h2>Interaction</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The “Enter Cell-AR” button switches to player mode to cruise inside the cell, and a prompt hints at using light to trigger the chloroplast scene (<code>ButtonPromptController.cs</code>). In player mode you are an oxygen atom: WASD moves it and the mouse turns the view (<code>BallController.cs</code>, <code>CameraFollow.cs</code>).</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/08-interaction.jpg"><img src="images/cell-ar/08-interaction.jpg" width="1536" height="1086" loading="lazy" alt="Interaction sheet: the Enter Cell-AR button and prompt, the oxygen atom player view, and Unity inspector and script screenshots"></a>
+              <figcaption>Button and prompt, and the oxygen atom player.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>Then the physical triggers were tested in place: light for the chloroplast scene, a breath on the sound sensor for the molecule animation.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/09-testing.jpg"><img src="images/cell-ar/09-testing.jpg" width="1536" height="1086" loading="lazy" alt="Testing sheet: a flashlight triggering the chloroplast scene, and blowing on the sound sensor to start the molecule animation"></a>
+              <figcaption>Testing light and blow triggers.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="fabrication">
+          <header class="stage__head">
+            <h2>Fabrication</h2>
+            <span class="tag">Leaf housing</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The sensors live in a monstera leaf: laser cut, painted and soldered by hand.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cell-ar/10-fabrication.jpg"><img src="images/cell-ar/10-fabrication.jpg" width="1536" height="1086" loading="lazy" alt="Fabrication sheet: monstera leaf laser-cut files, painting and soldering photos, and the finished green leaf housing with its cable"></a>
+              <figcaption>Laser-cut leaf, painting, soldering and the finished housing.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+      </div><!-- /.stages -->
+    </div><!-- /.body -->
+
+    <nav class="project-nav" aria-label="Other projects">
+      <a class="project-nav__link" href="the-pulse.html">
+        <small class="mono">Previous</small>
+        <span>The Pulse</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="cdefgab.html">
+        <small class="mono">Next</small>
+        <span>CDEFGAB</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <footer class="colophon">
+    <dl class="titleblock">
+      <div class="titleblock__name"><dt>Jia’s Cellar</dt><dd>Jiayang He · ITP, NYU Tisch, New York</dd></div>
+      <div><dt>Sheet</dt><dd>06 of 07 · Cell-AR</dd></div>
+      <div><dt>Scale</dt><dd>1 : 1, worn</dd></div>
+      <div><dt>Drawn</dt><dd>J. He</dd></div>
+      <div><dt>Contact</dt><dd><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></dd></div>
+    </dl>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

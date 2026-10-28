@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CDEFGAB — Jia He</title>
-  <meta name="description" content="A ring-based glove that turns individual finger movement into piano notes. Case study by Jia.">
+  <meta name="description" content="CDEFGAB: a wearable practice system that lets pianists train finger technique on any flat surface. Case study by Jia He.">
+  <meta property="og:image" content="images/thumbs/cdefgab.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,7 +18,7 @@
   <!-- Masthead: the same on every inner page -->
   <header class="masthead">
     <div class="masthead__strip mono">
-      <span>Vol. I · No. 5</span>
+      <span>Vol. I · No. 6</span>
       <span data-today>New York</span>
       <span>Wearables · Sensors · Data stories</span>
     </div>
@@ -40,8 +41,8 @@
         <p class="hero__kicker"><span class="label label--filled">Case study</span><span class="mono">Plate I · Wearable · 2026</span></p>
         <h1 class="hero__title">CDEFGAB</h1>
         <p class="hero__deck">
-          A ring-based glove that turns the movement of each finger into a piano note,
-          so playing happens in the air rather than on keys.
+          A wearable practice system that lets pianists train finger technique on any flat
+          surface. No piano required: practice anywhere.
         </p>
       </div>
 
@@ -66,7 +67,7 @@
 
       <dl class="titleblock">
         <div><dt>Role</dt><dd>Concept, hardware, signal processing, fabrication</dd></div>
-        <div><dt>Tools</dt><dd>Arduino, MPU-6050 IMUs, TCA9548A, Python, scikit-learn, WebSocket, Rhino</dd></div>
+        <div><dt>Tools</dt><dd>ESP32-C3, six MPU-6050 IMUs, I2C multiplexer, Python, scikit-learn, WebSocket, Three.js, Web Audio API, Rhino</dd></div>
         <div><dt>Duration</dt><dd>Six weeks</dd></div>
         <div><dt>Links</dt><dd><a href="#">Repository</a> <a href="#">Demo video</a></dd></div>
       </dl>
@@ -83,6 +84,7 @@
           <li><a href="#development">Development</a></li>
           <li><a href="#websocket">Web socket</a></li>
           <li><a href="#hardware">Hardware</a></li>
+          <li><a href="#frontend">Front end</a></li>
           <li><a href="#outcome">Outcome</a></li>
         </ol>
       </aside>
@@ -107,9 +109,16 @@
                 sits on the fingers should feel like a ring, not a device.
               </p>
             </div>
-            <figure class="fig fig--wide">
-              <div class="fig__frame" data-src="images/cdefgab/anatomy.png"></div>
-              <figcaption>Hand anatomy references, anterior and posterior, used to place sensors.</figcaption>
+            <div class="stage__text">
+              <p>
+                Six MPU-6050 IMUs, one per finger and one on the wrist, route through a
+                multiplexer to an ESP32-C3, which streams motion data to a browser-based
+                étude engine with FM-synthesized audio.
+              </p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/00-title.jpg"><img src="images/cdefgab/00-title.jpg" width="1800" height="1012" loading="lazy" alt="CDEFGAB title sheet: an anatomical hand with muscles and tendons over the strings and hammers of a grand piano"></a>
+              <figcaption>Title sheet. The hand’s anatomy laid over the inside of a grand piano.</figcaption>
             </figure>
           </div>
         </section>
@@ -120,13 +129,6 @@
             <span class="tag">sEMG on the forearm</span>
           </header>
           <div class="stage__grid">
-            <figure class="fig fig--wide">
-              <div class="fig__frame" data-src="images/cdefgab/semg-pipeline.png"></div>
-              <figcaption>
-                Dual-channel sEMG split into sliding windows, signal and frequency features per window,
-                five-fold cross-validation across several classifiers.
-              </figcaption>
-            </figure>
             <div class="stage__text">
               <p>
                 Three weeks went into a surface-EMG system reading two channels on the forearm.
@@ -138,6 +140,24 @@
                 <p>Offline accuracy against live accuracy, five fingers, 25 trials.</p>
               </div>
             </div>
+            <div class="stage__text">
+              <p>
+                The code splits dual-channel sEMG data into sliding windows, extracts signal
+                and frequency features from each window, then adds cross-channel comparison
+                features. These are organized into a table, cleaned, and used to train several
+                classifiers: random forest, gradient boosting, an SVM with RBF kernel and KNN.
+                The models are evaluated with five-fold cross-validation, and the best is
+                selected and saved.
+              </p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/01-inspiration.jpg"><img src="images/cdefgab/01-inspiration.jpg" width="1800" height="1012" loading="lazy" alt="Inspiration sheet: sEMG signal plots next to photos of a hand on a keyboard and the piano's hammer action"></a>
+              <figcaption>Inspiration. sEMG signals beside the hammers and keys of a piano.</figcaption>
+            </figure>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/02-semg.jpg"><img src="images/cdefgab/02-semg.jpg" width="1800" height="1012" loading="lazy" alt="Initial approach sheet: forearm anatomy with two electrode positions, a feature extraction table, model training options, feature box plots and classification results at 80.5%"></a>
+              <figcaption>Initial approach: two-channel electrodes, feature extraction and model training.</figcaption>
+            </figure>
           </div>
         </section>
 
@@ -153,19 +173,17 @@
                 adjacent fingers. So I moved the sensing onto the fingers themselves, one
                 small IMU at the base of each.
               </p>
+            </div>
+            <div class="stage__text">
               <p>
                 Placing sensors at the base rather than the tip keeps the fingertips and
                 joints free, so the hand moves naturally while the system still captures
                 each finger on its own.
               </p>
             </div>
-            <figure class="fig">
-              <div class="fig__frame fig__frame--portrait" data-src="images/cdefgab/imu-fitting.jpg"></div>
-              <figcaption>Five IMUs taped at the base of each finger for the first fitting.</figcaption>
-            </figure>
-            <figure class="fig">
-              <div class="fig__frame" data-src="images/cdefgab/imu-wiring.png"></div>
-              <figcaption>Five channels through an I2C multiplexer into one Arduino.</figcaption>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/03-pivot.jpg"><img src="images/cdefgab/03-pivot.jpg" width="1800" height="1012" loading="lazy" alt="Challenge and pivot sheet: live test results with low accuracy, a wiring diagram of five MPU6050 sensors through an I2C multiplexer, sensor positions on a hand, and the first fitting taped to a hand"></a>
+              <figcaption>Live classification at 52%, five IMU channels on the fingers, and the first taped fitting.</figcaption>
             </figure>
           </div>
         </section>
@@ -176,24 +194,26 @@
             <span class="tag">Classification</span>
           </header>
           <div class="stage__grid">
-            <figure class="fig fig--wide">
-              <div class="fig__frame" data-src="images/cdefgab/imu-traces.png"></div>
-              <figcaption>Gyro energy per finger. Accuracy improved significantly once each finger had its own channel.</figcaption>
-            </figure>
             <div class="stage__text">
               <p>
                 With a sensor per finger the problem changes from classification to peak
                 detection. A press shows up as a sharp rise in gyro energy, and the finger
                 is simply whichever channel is loudest at the peak.
               </p>
+            </div>
+            <div class="stage__text">
               <p>
                 For wearability I swapped to smaller IMU boards and a round I2C multiplexer
                 that sits flatter on the back of the hand.
               </p>
             </div>
-            <figure class="fig fig--wide">
-              <div class="fig__frame" data-src="images/cdefgab/serial-tests.png"></div>
-              <figcaption>Serial output from five fittings, each press resolved to a finger.</figcaption>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/04-development.jpg"><img src="images/cdefgab/04-development.jpg" width="1800" height="1012" loading="lazy" alt="Development sheet: colour-coded gyro traces for each finger, Arduino classifier code, serial output from five tests, and the glove with smaller IMUs and a round multiplexer"></a>
+              <figcaption>Gyro energy per finger, the Arduino classifier, and five fittings that each resolved to the right finger.</figcaption>
+            </figure>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/05-fitting.jpg"><img src="images/cdefgab/05-fitting.jpg" width="1800" height="1012" loading="lazy" alt="Wearability fitting sheet: serial output from each test and the wired glove on a hand"></a>
+              <figcaption>Wearability fitting.</figcaption>
             </figure>
           </div>
         </section>
@@ -201,15 +221,22 @@
         <section class="stage" id="websocket">
           <header class="stage__head">
             <h2>Web socket</h2>
-            <span class="tag">Arduino → Python → browser</span>
+            <span class="tag">ESP32 → Python → browser</span>
           </header>
           <div class="stage__grid">
             <div class="stage__text">
               <p>
-                In the final version the Arduino only reads the IMUs, computes gyro energy,
-                and streams it. Peak detection, finger selection, cooldown, and velocity live
-                in Python, which sends structured JSON to the browser over WebSocket. That
-                makes thresholds easy to tune without reflashing.
+                In the new version the microcontroller becomes much simpler. Its only job is
+                to read the IMUs, calculate basic gyro energy, and stream clean real-time data.
+                The more complex logic, peak detection, finger selection, cooldown, velocity
+                and WebSocket communication, moves to Python.
+              </p>
+            </div>
+            <div class="stage__text">
+              <p>
+                That makes the system easier to tune, debug, and expand. It also makes the
+                browser interaction cleaner, since Python sends structured JSON messages
+                straight through the WebSocket.
               </p>
             </div>
 
@@ -242,9 +269,9 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
     ws.send(json.dumps({"finger": i, "velocity": v}))</code></pre>
             </div>
 
-            <figure class="fig">
-              <div class="fig__frame" data-src="images/cdefgab/browser-test.jpg"></div>
-              <figcaption>Browser live test. Each fired finger lights a key and plays a note.</figcaption>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/06-websocket.jpg"><img src="images/cdefgab/06-websocket.jpg" width="1800" height="1012" loading="lazy" alt="Web socket sheet: two pipelines compared, the peak-detection curve with its thresholds, code excerpts, and a browser test on a laptop with the glove"></a>
+              <figcaption>Arduino classifier against pure data streamer, and the browser live test.</figcaption>
             </figure>
           </div>
         </section>
@@ -255,10 +282,6 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
             <span class="tag">CAD and CAM</span>
           </header>
           <div class="stage__grid">
-            <figure class="fig fig--wide">
-              <div class="fig__frame" data-src="images/cdefgab/cad.png"></div>
-              <figcaption>Ring housings modelled in Rhino to hold each IMU at the finger base.</figcaption>
-            </figure>
             <div class="stage__text">
               <p>
                 The rings are the part of the project I care most about being right. Each
@@ -266,6 +289,73 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
                 leaves toward the back of the hand rather than across the knuckle.
               </p>
             </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/07-hardware.jpg"><img src="images/cdefgab/07-hardware.jpg" width="1800" height="1012" loading="lazy" alt="Hardware sheet: a pencil drawing of the glove on a hand, and CAD renders of the ring housings and the round wrist hub"></a>
+              <figcaption>The glove sketched, and ring and hub housings modelled in CAD.</figcaption>
+            </figure>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/08-fabrication.jpg"><img src="images/cdefgab/08-fabrication.jpg" width="1800" height="1012" loading="lazy" alt="Fabrication sheet: printed ring housings on fingers, the soldered round hub with its wires, and a diagram of the IMUs, multiplexer and ESP32 circuit"></a>
+              <figcaption>Fabrication: printed rings, the soldered hub, and the full circuit.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="stage" id="frontend">
+          <header class="stage__head">
+            <h2>Front end</h2>
+            <span class="tag">Three pages</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>
+                Python reads the glove over Bluetooth serial, calibrates a two-second baseline
+                with per-finger and wrist offsets, and runs a tap classifier and a Schmitt-trigger
+                swipe detector. It sends <code>{finger, velocity}</code> and
+                <code>{zoneShift: ±1}</code> to the browser on port 8765.
+              </p>
+            </div>
+            <div class="stage__text">
+              <p>
+                The browser has three pages: a hero page with a 3D grand piano, a demo page for
+                free play, and an étude page for guided practice. Sound is FM synthesis, six
+                harmonics through a filter, in the Web Audio API.
+              </p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/09-frontend.jpg"><img src="images/cdefgab/09-frontend.jpg" width="1800" height="1012" loading="lazy" alt="Front end sheet: architecture from hardware through the Python WebSocket to the hero, demo and étude pages, and renders of a 3D grand piano"></a>
+              <figcaption>Front-end architecture, and the hero page’s 3D grand piano.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>
+                I abandoned the traditional keyboard visual and pivoted toward the piano’s
+                internal structure. The strings make the musical mechanism more explicit, while
+                also echoing the mechanical aesthetic of the hardware itself, making the
+                interface feel less like a conventional music display and more like an
+                extension of the hardware system.
+              </p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/10-demo.jpg"><img src="images/cdefgab/10-demo.jpg" width="1800" height="1012" loading="lazy" alt="Demo page sheet: inspiration photo of piano strings, a colour plate, three keyboard iterations, the final strings interface, and the cast-iron frame model"></a>
+              <figcaption>Demo page: three keyboard iterations, then the strings and cast-iron frame.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>
+                I chose Czerny Op. 849, No. 1 because it is a technical étude built from clear,
+                repetitive finger patterns, which makes it suitable for testing a finger-based
+                interaction system.
+              </p>
+              <p>
+                The score was first read by hand from the sheet music, then translated into a
+                JavaScript data file. Each note carries its pitch, octave, duration and finger.
+              </p>
+            </div>
+            <pre class="code"><code><span class="c">// piece_data.js</span>
+{ type: "note", pitch: "G", octave: 5,
+  duration: "triplet_eighth", finger: 5 },</code></pre>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/cdefgab/11-etude.jpg"><img src="images/cdefgab/11-etude.jpg" width="1800" height="1012" loading="lazy" alt="Étude page sheet: the Czerny score, the translated JavaScript note data, the falling-notes effect and the finished étude page"></a>
+              <figcaption>Étude page: Czerny Op. 849, No. 1, translated to a JS file, with falling notes.</figcaption>
+            </figure>
           </div>
         </section>
 
@@ -274,14 +364,19 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
             <h2>Outcome</h2>
           </header>
           <div class="stage__grid">
-            <figure class="fig fig--wide">
-              <div class="fig__frame" data-src="images/cdefgab/final.jpg"></div>
-              <figcaption>The glove in use.</figcaption>
-            </figure>
+            <figure class="fig photo">
+                <img src="images/cdefgab/final-photo.jpg" width="1200" height="1600" loading="lazy" alt="Wearing the finished glove: white ring housings with glowing lights on each finger, wired to a round hub on the back of the hand">
+                <figcaption>The finished glove, lit.</figcaption>
+              </figure>
             <div class="stage__text">
               <p>
-                Five fingers, five notes, no keyboard. Next steps are chord detection from
-                simultaneous peaks and moving the rings from PLA to cast metal.
+                Five fingers, five notes, no keyboard. The biggest technical skills I picked up
+                were WebSocket communication, bridging hardware serial data to a live browser
+                interface, and Python model training with scikit-learn during the sEMG phase.
+              </p>
+              <p>
+                Next is refining the UI and interaction: tighter visual feedback and smoother
+                zone transitions.
               </p>
             </div>
           </div>
@@ -290,12 +385,14 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
       </div><!-- /.stages -->
     </div><!-- /.body -->
 
-    <!-- Add Previous / Next links here once the neighbouring case studies exist:
-         <a class="project-nav__link" href="uselace.html"><small>Next</small><span>Uselace</span></a> -->
     <nav class="project-nav" aria-label="Other projects">
-      <a class="project-nav__link" href="projects.html">
-        <small class="mono">Back to</small>
-        <span>All projects</span>
+      <a class="project-nav__link" href="cell-ar.html">
+        <small class="mono">Previous</small>
+        <span>Cell-AR</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="uselace.html">
+        <small class="mono">Next</small>
+        <span>UseLace</span>
       </a>
     </nav>
 
@@ -304,7 +401,7 @@ elif v < tracked_peak[i] * DROP_CONFIRM:
   <footer class="colophon">
     <dl class="titleblock">
       <div class="titleblock__name"><dt>Jia’s Cellar</dt><dd>Jiayang He · ITP, NYU Tisch, New York</dd></div>
-      <div><dt>Sheet</dt><dd>03 of 04 · CDEFGAB</dd></div>
+      <div><dt>Sheet</dt><dd>03 of 07 · CDEFGAB</dd></div>
       <div><dt>Scale</dt><dd>1 : 1, worn</dd></div>
       <div><dt>Drawn</dt><dd>J. He</dd></div>
       <div><dt>Contact</dt><dd><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></dd></div>

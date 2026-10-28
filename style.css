@@ -821,8 +821,8 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
   font-weight: 600;
   font-size: clamp(56px, 11vw, 148px);
   line-height: 0.95;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: var(--head-tracking, 0.08em);
+  text-transform: var(--head-transform, uppercase);
 }
 
 .hero__deck {
@@ -931,8 +931,8 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(30px, 3.6vw, 44px);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: var(--head-tracking, 0.12em);
+  text-transform: var(--head-transform, uppercase);
   line-height: 1;
 }
 
@@ -959,6 +959,7 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
 .stage__text { max-width: var(--measure); }
 .stage__text p { margin: 0 0 1em; }
 .stage__text p:last-child { margin-bottom: 0; }
+.stage__text code { font-family: var(--font-mono); font-size: 0.82em; }
 
 /* ---------- Figures ---------- */
 
@@ -1085,6 +1086,88 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
 
 .code .c { color: var(--muted); }
 
+.code--wide { grid-column: 1 / -1; }
+
+/* ---------- Sheets and photos ----------
+   A sheet is one page of the project's process document, exported
+   from Figma and printed whole, like a plate. It links to the full
+   size file so small annotations stay readable. */
+
+.sheet { margin: 0; }
+
+.sheet__link {
+  position: relative;
+  display: block;
+}
+
+.sheet img,
+.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 0 0 1px var(--rule);
+}
+
+.sheet__link::after {
+  content: "Full size ↗";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 3px 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sheet__link:hover::after,
+.sheet__link:focus-visible::after { opacity: 1; }
+
+@media (hover: none) {
+  .sheet__link::after { opacity: 0.85; }
+}
+
+.hero .sheet { margin-top: 4px; }
+
+.photos {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.photos--lead { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+
+.photo { margin: 0; }
+
+/* Plain list of facts from a sheet, e.g. inputs and outputs */
+.facts {
+  margin: 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.facts > div {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 16px;
+  padding: 9px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.facts dd { margin: 0; }
+
 /* ---------- Prev / next ---------- */
 
 .project-nav {
@@ -1192,8 +1275,8 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
 
 /* Cell-AR — night navy, chartreuse mono, green outlines */
 [data-skin="cell-ar"] {
-  --bg: #121821;
-  --bg-panel: #1b2430;
+  --bg: #11151e;
+  --bg-panel: #1a2030;
   --ink: #eef7b4;
   --muted: #a9b79a;
   --rule: rgba(143, 209, 111, 0.4);
@@ -1207,15 +1290,55 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
   --display-weight: 500;
   --display-transform: uppercase;
   --display-tracking: 0.02em;
+  --head-tracking: 0.04em;
 }
 
-/* Placeholder skins: swap these values for the palettes in your Figma frames */
-[data-skin="uselace"] {
-  --bg: #2b2420; --bg-panel: #382f29; --ink: #e8dcc6; --muted: #a8977d;
-  --rule: rgba(232, 220, 198, 0.2);
-  --halftone: rgba(232, 220, 198, 0.3);
-  --display-style: italic; --display-weight: 500;
+/* The Pulse — schematic navy, pale chartreuse mono, pill tags */
+[data-skin="the-pulse"] {
+  --bg: #1a3459;
+  --bg-panel: #213e68;
+  --ink: #eef3b4;
+  --muted: #b3c0cf;
+  --rule: rgba(238, 243, 180, 0.3);
+  --accent: #eef3b4;
+  --label-bg: transparent;
+  --label-ink: #eef3b4;
+  --label-line: rgba(238, 243, 180, 0.6);
+  --halftone: rgba(238, 243, 180, 0.4);
+  --grid: rgba(238, 243, 180, 0.06);
+  --font-display: "JetBrains Mono", monospace;
+  --font-body: "JetBrains Mono", monospace;
+  --display-weight: 500;
+  --display-transform: uppercase;
+  --display-tracking: 0.02em;
+  --head-tracking: 0.04em;
 }
+
+/* Mono skins set body text a little smaller, as on their sheets */
+.project[data-skin="the-pulse"],
+.project[data-skin="cell-ar"] { font-size: 16px; line-height: 1.7; }
+.project[data-skin="the-pulse"] .hero__deck,
+.project[data-skin="cell-ar"] .hero__deck { font-size: clamp(18px, 2vw, 23px); line-height: 1.45; font-weight: 400; }
+
+/* UseLace — cream paper, lace brown, Garamond set in title case */
+[data-skin="uselace"] {
+  --bg: #fdf5e0;
+  --bg-panel: #f4e9cd;
+  --ink: #3f3520;
+  --muted: #74684c;
+  --rule: rgba(63, 53, 32, 0.2);
+  --accent: #6f5a32;
+  --label-bg: #5f5136;
+  --label-ink: #fdf5e0;
+  --label-line: #5f5136;
+  --halftone: rgba(95, 81, 54, 0.4);
+  --grid: rgba(95, 81, 54, 0.07);
+  --display-weight: 600;
+  --head-transform: none;
+  --head-tracking: 0.005em;
+}
+
+/* Placeholder skin: swap these values for the palette in its Figma frames */
 
 [data-skin="spirit-slices"] {
   --bg: #e4e9ea; --bg-panel: #d3dbdd; --ink: #14212b; --muted: #55646f;
@@ -1303,7 +1426,8 @@ a.plate:hover { box-shadow: 0 0 0 1px var(--ink), 0 0 0 5px var(--bg), 0 0 0 6px
   .rows > div { grid-template-columns: 1fr; gap: 2px; }
 
   .project { font-size: 18px; }
-  .stage__grid, .code-pair { grid-template-columns: 1fr; }
+  .stage__grid, .code-pair, .photos, .photos--lead { grid-template-columns: 1fr; }
+  .facts > div { grid-template-columns: 1fr; gap: 2px; }
   .stage { padding: 48px 0; }
   .hero .plot figcaption .replay { float: none; display: block; margin: 10px 0 0; }
   .project-nav__link span { font-size: 22px; }

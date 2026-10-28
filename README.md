@@ -3,9 +3,12 @@
 Plain HTML, CSS and JS. No build step.
 
 - `index.html` front page (newspaper masthead and lead story), `projects.html` index of works, `about.html` about and contact
-- `cdefgab.html` case study. Duplicate it for each new project and change `data-skin`
+- Case studies: `cdefgab.html`, `uselace.html`, `the-pulse.html`, `cell-ar.html`. Duplicate one for a new project and change `data-skin`
 - `style.css` shared styles and per-project skins, `script.js` shared behaviour
 - `images/thumbs/<project>.jpg` plate thumbnails, `images/<project>/` case study images
+- Case study figures are the project's process sheets exported from the Figma file
+  (one page per project), saved as 1800 px JPEGs and shown whole with `.sheet`, which links to
+  the full-size file
 - `download/Jiayang_He_Resume.pdf` resume linked from the nav
 
 ## Visual system

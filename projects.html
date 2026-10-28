@@ -18,7 +18,7 @@
   <!-- Masthead: the same on every inner page -->
   <header class="masthead">
     <div class="masthead__strip mono">
-      <span>Vol. I · No. 5</span>
+      <span>Vol. I · No. 6</span>
       <span data-today>New York</span>
       <span>Wearables · Sensors · Data stories</span>
     </div>
@@ -35,15 +35,15 @@
 
   <main id="main" class="page">
     <header class="page-head">
-      <p class="label label--filled">Catalogue · five plates</p>
+      <p class="label label--filled">Catalogue · six plates</p>
       <h1 class="page-head__title">Index of works</h1>
       <p class="page-head__deck">
         Each plate is printed in the palette and type its project was designed in.
       </p>
     </header>
 
-    <!-- An entry without a page yet has a <div class="plate"> and no title link target.
-         When its page exists, make the plate an <a href="name.html"> like CDEFGAB's. -->
+    <!-- An entry without a page yet has a <div class="plate"> and no title link.
+         When its page exists, make the plate an <a href="name.html"> like the others. -->
     <div class="catalogue">
       <article class="entry entry--lead" id="cdefgab">
         <p class="entry__meta mono"><span>Plate I</span><span>Case study</span></p>
@@ -51,24 +51,46 @@
           <span class="plate__poster"><span class="plate__title">CDEFGAB</span></span>
         </a>
         <h2 class="entry__title"><a href="cdefgab.html">CDEFGAB</a></h2>
-        <p class="entry__deck">A ring-based glove that turns the movement of each finger into a piano note.</p>
+        <p class="entry__deck">A wearable practice system that lets pianists train finger technique on any flat surface, one note per finger.</p>
         <p class="entry__tags mono">Wearable · IMU sensing · Python · WebSocket</p>
         <p class="jump"><a href="cdefgab.html">Read the case study →</a></p>
       </article>
 
       <article class="entry" id="uselace">
-        <p class="entry__meta mono"><span>Plate II</span><span>In press</span></p>
-        <div class="plate" data-skin="uselace" data-src="images/thumbs/uselace.jpg" aria-hidden="true">
-          <span class="plate__poster"><span class="plate__title">Uselace</span></span>
-        </div>
-        <h2 class="entry__title">Uselace</h2>
+        <p class="entry__meta mono"><span>Plate II</span><span>Case study</span></p>
+        <a class="plate" data-skin="uselace" data-src="images/thumbs/uselace.jpg" href="uselace.html" tabindex="-1" aria-hidden="true">
+          <span class="plate__poster"><span class="plate__title">UseLace</span></span>
+        </a>
+        <h2 class="entry__title"><a href="uselace.html">UseLace</a></h2>
         <p class="entry__deck">A control glove made from a stretchable lace circuit. Hand gestures steer a 3D model in the browser.</p>
-        <p class="entry__tags mono">Wearable · flexible circuit · Three.js</p>
-        <p class="jump jump--off">Case study coming soon</p>
+        <p class="entry__tags mono">Wearable · printed circuit · BLE · Three.js</p>
+        <p class="jump"><a href="uselace.html">Read the case study →</a></p>
+      </article>
+
+      <article class="entry" id="the-pulse">
+        <p class="entry__meta mono"><span>Plate III</span><span>Case study</span></p>
+        <a class="plate" data-skin="the-pulse" data-src="images/thumbs/the-pulse.jpg" href="the-pulse.html" tabindex="-1" aria-hidden="true">
+          <span class="plate__poster"><span class="plate__title">The Pulse</span></span>
+        </a>
+        <h2 class="entry__title"><a href="the-pulse.html">The Pulse</a></h2>
+        <p class="entry__deck">An oversized “macro controller” that keeps time with the visitor’s heartbeat.</p>
+        <p class="entry__tags mono">Installation · Arduino · p5.js · fabrication</p>
+        <p class="jump"><a href="the-pulse.html">Read the case study →</a></p>
+      </article>
+
+      <article class="entry" id="cell-ar">
+        <p class="entry__meta mono"><span>Plate IV</span><span>Case study</span></p>
+        <a class="plate" data-skin="cell-ar" data-src="images/thumbs/cell-ar.png" href="cell-ar.html" tabindex="-1" aria-hidden="true">
+          <span class="plate__poster"><span class="plate__title">Cell-AR</span></span>
+        </a>
+        <h2 class="entry__title"><a href="cell-ar.html">Cell-AR</a></h2>
+        <p class="entry__deck">A plant cell to enter in Unity. Light and breath trigger photosynthesis.</p>
+        <p class="entry__tags mono">AR · Unity · Arduino sensors</p>
+        <p class="jump"><a href="cell-ar.html">Read the case study →</a></p>
       </article>
 
       <article class="entry" id="spirit-slices">
-        <p class="entry__meta mono"><span>Plate III</span><span>In press</span></p>
+        <p class="entry__meta mono"><span>Plate V</span><span>In press</span></p>
         <div class="plate" data-skin="spirit-slices" data-src="images/thumbs/spirit-slices.jpg" aria-hidden="true">
           <span class="plate__poster"><span class="plate__title">Spirit Slices</span></span>
         </div>
@@ -79,7 +101,7 @@
       </article>
 
       <article class="entry" id="earth-rover">
-        <p class="entry__meta mono"><span>Plate IV</span><span>In press</span></p>
+        <p class="entry__meta mono"><span>Plate VI</span><span>In press</span></p>
         <div class="plate" data-skin="earth-rover" data-src="images/thumbs/earth-rover.jpg" aria-hidden="true">
           <span class="plate__poster"><span class="plate__title">Earth Rover</span></span>
         </div>
@@ -88,24 +110,13 @@
         <p class="entry__tags mono">Energy · electronics</p>
         <p class="jump jump--off">Case study coming soon</p>
       </article>
-
-      <article class="entry" id="cell-ar">
-        <p class="entry__meta mono"><span>Plate V</span><span>In press</span></p>
-        <div class="plate" data-skin="cell-ar" data-src="images/thumbs/cell-ar.png" aria-hidden="true">
-          <span class="plate__poster"><span class="plate__title">Cell-AR</span></span>
-        </div>
-        <h2 class="entry__title">Cell-AR</h2>
-        <p class="entry__deck">An AR environment built in Unity, with particle systems that respond to light and sound.</p>
-        <p class="entry__tags mono">AR · Unity</p>
-        <p class="jump jump--off">Case study coming soon</p>
-      </article>
     </div>
   </main>
 
   <footer class="colophon">
     <dl class="titleblock">
       <div class="titleblock__name"><dt>Jia’s Cellar</dt><dd>Jiayang He · ITP, NYU Tisch, New York</dd></div>
-      <div><dt>Sheet</dt><dd>02 of 04 · Index of works</dd></div>
+      <div><dt>Sheet</dt><dd>02 of 07 · Index of works</dd></div>
       <div><dt>Scale</dt><dd>1 : 1, worn</dd></div>
       <div><dt>Drawn</dt><dd>J. He</dd></div>
       <div><dt>Contact</dt><dd><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></dd></div>

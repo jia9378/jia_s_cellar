@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Pulse — Jia He</title>
+  <meta name="description" content="The Pulse: a macro controller, an oversized microcontroller that runs on the visitor’s heartbeat. Case study by Jia He.">
+  <meta property="og:title" content="The Pulse — Jia He">
+  <meta property="og:description" content="The Pulse: a macro controller, an oversized microcontroller that runs on the visitor’s heartbeat. Case study by Jia He.">
+  <meta property="og:image" content="images/thumbs/the-pulse.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Masthead: the same on every inner page -->
+  <header class="masthead">
+    <div class="masthead__strip mono">
+      <span>Vol. I · No. 6</span>
+      <span data-today>New York</span>
+      <span>Wearables · Sensors · Data stories</span>
+    </div>
+    <div class="masthead__bar">
+      <a class="masthead__name" href="index.html">Jia’s Cellar</a>
+      <nav class="masthead__nav" aria-label="Site">
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="about.html">About</a>
+        <a href="download/Jiayang_He_Resume.pdf">Resume</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Project region: carries its own skin via data-skin.
+       Every figure is a sheet from the project's Figma page, in images/the-pulse/. -->
+  <main id="main" class="project" data-skin="the-pulse">
+
+    <section class="hero">
+      <div class="hero__text">
+        <p class="hero__kicker"><span class="label label--filled">Case study</span><span class="mono">Plate III · Installation · 2025</span></p>
+        <h1 class="hero__title">The Pulse</h1>
+        <p class="hero__deck">A “macro controller”: a microcontroller enlarged into an oversized, strangely intimate body that keeps time with the visitor’s heartbeat.</p>
+      </div>
+
+      <figure class="fig sheet crop">
+        <a class="sheet__link" href="images/the-pulse/01-title.jpg"><img src="images/the-pulse/01-title.jpg" width="1800" height="1273" alt="The Pulse title sheet: a pale heartbeat trace drawn across a navy circuit schematic, with an x-ray hand taking a pulse at the wrist"></a>
+        <figcaption>Title sheet. Heartbeat over an Arduino Uno schematic.</figcaption>
+      </figure>
+
+      <dl class="titleblock">
+        <div><dt>Type</dt><dd>Interactive installation</dd></div>
+        <div><dt>Hardware</dt><dd>Arduino, MAX30105 pulse sensor, CH1116 OLED, SG90 servos, LilyPad LEDs, joystick</dd></div>
+        <div><dt>Software</dt><dd>Arduino C++, p5.js over serial</dd></div>
+        <div><dt>Fabrication</dt><dd>Rhino, Illustrator, laser-cut acrylic and wood, PLA 3D print</dd></div>
+      </dl>
+    </section>
+
+    <div class="body">
+
+      <aside class="index">
+        <p class="index__title label">Stages</p>
+        <ol id="stage-index">
+          <li><a href="#ideation">Ideation</a></li>
+          <li><a href="#diagram">Diagram</a></li>
+          <li><a href="#realisation">Technical realisation</a></li>
+          <li><a href="#wiring">Wiring</a></li>
+          <li><a href="#fabrication">Fabrication</a></li>
+          <li><a href="#assembly">Soldering and assembly</a></li>
+          <li><a href="#outcome">Final outcome</a></li>
+        </ol>
+      </aside>
+
+      <div class="stages">
+
+        <section class="stage" id="ideation">
+          <header class="stage__head">
+            <h2>Ideation</h2>
+            <span class="tag">Macro controller</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The Pulse reflects on a parallel that often goes unnoticed: humans and machines are both governed by pulses, heartbeat, clock cycles, PWM signals. By letting a human’s heartbeat serve as the macro controller’s clock, the installation blurs the line between biological and digital life.</p>
+              <p>It asks where vitality begins and ends, and whether the technologies we build might, in their own way, be echoing the rhythms of the bodies that created them.</p>
+            </div>
+            <div class="stage__text">
+              <p>The Pulse reimagines a microcontroller as an oversized, strangely intimate body. Built as a “macro controller,” the installation enlarges a familiar circuit board until its layout reads as something architectural, even anatomical.</p>
+              <p>Visitors insert their finger into an enlarged analog pin, completing a circuit with their own body.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/02-ideation.jpg"><img src="images/the-pulse/02-ideation.jpg" width="1800" height="1273" loading="lazy" alt="Ideation sheet: Arduino Uno photos, a heart rate wave and a PWM wave, and a pencil sketch of a finger inserted into an oversized pin"></a>
+              <figcaption>Ideation. The Arduino Uno as starting point, a heart rate wave beside a PWM wave, and the first sketch of a finger in the pin.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="diagram">
+          <header class="stage__head">
+            <h2>Diagram</h2>
+            <span class="tag">Inputs and outputs</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Three inputs drive six outputs. The pulse sensor sits inside the “A0” pin, so the visitor’s finger is the signal: the board’s eyes open, its LEDs blink and the screen draws the beat as it arrives.</p>
+            </div>
+            <div class="stage__text">
+              <dl class="facts">
+                <div><dt>Input · Button</dt><dd>LED on while pressed</dd></div>
+                <div><dt>Input · Joystick</dt><dd>Steers the p5.js animation</dd></div>
+                <div><dt>Input · Pulse sensor</dt><dd>Visitor inserts a finger in the “A0” pin</dd></div>
+                <div><dt>Output · LEDs</dt><dd>Blink with the pulse, stay on while a pulse is detected</dd></div>
+                <div><dt>Output · Mechanical eyes</dt><dd>Open when a pulse is detected, blink with it</dd></div>
+                <div><dt>Output · OLED screen</dt><dd>Displays the pulse wave like an oscilloscope</dd></div>
+                <div><dt>Output · p5.js</dt><dd>Ultrasound-scan styled interactive animation</dd></div>
+              </dl>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/03-diagram.jpg"><img src="images/the-pulse/03-diagram.jpg" width="1800" height="1273" loading="lazy" alt="Diagram sheet: the enlarged Arduino board with labelled inputs (button, joystick, pulse sensor) and outputs (LEDs, mechanical eyes, OLED screen, p5.js)"></a>
+              <figcaption>System diagram drawn on the enlarged board.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="realisation">
+          <header class="stage__head">
+            <h2>Technical realisation</h2>
+            <span class="tag">Sensors and outputs</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Each part was built and tested on its own before anything was joined: <code>detectBeat()</code> for the MAX30105 pulse sensor, <code>drawScreen()</code> for the OLED, <code>startBlink()</code> for the SG90 servos that move the mechanical eyes, and <code>digitalWrite(12, HIGH)</code> for the LilyPad LEDs.</p>
+            </div>
+            <div class="stage__text">
+              <p>The servo test code went through several rounds of angle adjustment before the eyelids opened and blinked convincingly.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/04-tech1.jpg"><img src="images/the-pulse/04-tech1.jpg" width="1800" height="1273" loading="lazy" alt="Technical realisation sheet: pulse sensor, OLED screen, servo-driven mechanical eyes and LEDs, each shown with code screenshots and test photos"></a>
+              <figcaption>Pulse sensor, OLED screen, mechanical eyes and LEDs, each with its code and a test photo.</figcaption>
+            </figure>
+            <div class="stage__text">
+              <p>The joystick (COM-09032) is read in <code>updateJoystick()</code> and sent over serial to p5.js, where <code>serialEvent()</code> moves a scanning view across the board. The look borrows from B-mode ultrasound, so the machine is examined the way a body would be.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/05-tech2.jpg"><img src="images/the-pulse/05-tech2.jpg" width="1800" height="1273" loading="lazy" alt="Technical realisation sheet: joystick module and code, p5.js serial code, ultrasound scan references, and two tests of the scanning animation"></a>
+              <figcaption>Joystick to p5.js, after B-mode ultrasound scans, with two test runs.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="wiring">
+          <header class="stage__head">
+            <h2>Wiring</h2>
+            <span class="tag">Problems and solutions</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>I found both the OLED screen and pulse sensor died after I assembled the full circuit.</p>
+              <p>It turned out the servo motors were huge signal intruders: they drop the voltage instantly when they move. When the voltage falls below about 4.5 V, the Arduino or sensor “browns out” and restarts or freezes.</p>
+            </div>
+            <div class="stage__text">
+              <dl class="facts">
+                <div><dt>Pull-up resistors</dt><dd>Between SDA/SCL and 5 V. They hold the line firmly at 5 V so only a deliberate signal from the sensor can pull it down.</dd></div>
+                <div><dt>Capacitor</dt><dd>Across servo + and servo −. It supplies current instantly, so the main voltage line doesn’t dip.</dd></div>
+              </dl>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/06-wiring.jpg"><img src="images/the-pulse/06-wiring.jpg" width="1800" height="1273" loading="lazy" alt="Wiring sheet: full circuit diagram, a photo of the failed assembly, and breadboard diagrams of the pull-up resistors and capacitor"></a>
+              <figcaption>Full wiring, the failure, and the two fixes on the breadboard.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="fabrication">
+          <header class="stage__head">
+            <h2>Fabrication</h2>
+            <span class="tag">Outer shell</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The board is built in layers, like the PCB it imitates: laser-cut acrylic and wood, 3D-printed PLA parts, and the electronics sandwiched between.</p>
+            </div>
+            <div class="stage__text">
+              <p>Every part went from CAD to CAM to hand: laser files drawn in Illustrator and print files modelled in Rhino; then laser cutting, spray paint and 3D printing; then wood work and assembly.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/07-fab1.jpg"><img src="images/the-pulse/07-fab1.jpg" width="1800" height="1273" loading="lazy" alt="Fabrication sheet: an exploded line drawing of the board showing 3D-printed PLA, electronic parts, laser-cut acrylic and laser-cut wood layers"></a>
+              <figcaption>Exploded view: PLA, electronic parts, acrylic and wood layers.</figcaption>
+            </figure>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/08-fab2.jpg"><img src="images/the-pulse/08-fab2.jpg" width="1800" height="1273" loading="lazy" alt="Fabrication sheet: Illustrator laser files, Rhino print files, and photos of laser cutting, spray painting, 3D printing, assembly and wood work"></a>
+              <figcaption>Outer shell, from Illustrator and Rhino files to laser, spray paint, print and assembly.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="assembly">
+          <header class="stage__head">
+            <h2>Soldering and assembly</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The wiring layout was dense enough that I printed it out at real size to make sure there wouldn’t be any errors while soldering.</p>
+            </div>
+            <div class="stage__text">
+              <p>I was planning to hide all these chaotic wires in a case, but later realized they fit the concept if left on show. (There was also no time to make a perfect bottom case.)</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/the-pulse/09-solder.jpg"><img src="images/the-pulse/09-solder.jpg" width="1800" height="1273" loading="lazy" alt="Soldering and assembly sheet: the wiring layout, soldering in progress, and the underside of the board with its wires exposed"></a>
+              <figcaption>Wiring layout, soldering, and the exposed underside.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="outcome">
+          <header class="stage__head">
+            <h2>Final outcome</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="photos photos--lead">
+              <figure class="fig photo">
+                <img src="images/the-pulse/final-1.jpg" width="1800" height="1468" loading="lazy" alt="The finished installation: an oversized navy circuit board with white pin labels, a small screen, two servo-driven eyes and a cable loop">
+                <figcaption>The macro controller: navy board, screen, servo eyes and the pulse sensor’s cable loop.</figcaption>
+              </figure>
+              <figure class="fig photo">
+                <img src="images/the-pulse/final-2.jpg" width="1200" height="1600" loading="lazy" alt="A visitor pressing a finger into the board's analog pin while the p5.js scan animation runs on a laptop behind">
+                <figcaption>A visitor’s finger in the analog pin, with the scan running behind.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /.stages -->
+    </div><!-- /.body -->
+
+    <nav class="project-nav" aria-label="Other projects">
+      <a class="project-nav__link" href="uselace.html">
+        <small class="mono">Previous</small>
+        <span>UseLace</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="cell-ar.html">
+        <small class="mono">Next</small>
+        <span>Cell-AR</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <footer class="colophon">
+    <dl class="titleblock">
+      <div class="titleblock__name"><dt>Jia’s Cellar</dt><dd>Jiayang He · ITP, NYU Tisch, New York</dd></div>
+      <div><dt>Sheet</dt><dd>05 of 07 · The Pulse</dd></div>
+      <div><dt>Scale</dt><dd>1 : 1, worn</dd></div>
+      <div><dt>Drawn</dt><dd>J. He</dd></div>
+      <div><dt>Contact</dt><dd><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></dd></div>
+    </dl>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

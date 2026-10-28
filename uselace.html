@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UseLace — Jia He</title>
+  <meta name="description" content="UseLace: a lace control glove that treats ornament as circuitry. Case study by Jia He.">
+  <meta property="og:title" content="UseLace — Jia He">
+  <meta property="og:description" content="UseLace: a lace control glove that treats ornament as circuitry. Case study by Jia He.">
+  <meta property="og:image" content="images/thumbs/uselace.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Masthead: the same on every inner page -->
+  <header class="masthead">
+    <div class="masthead__strip mono">
+      <span>Vol. I · No. 6</span>
+      <span data-today>New York</span>
+      <span>Wearables · Sensors · Data stories</span>
+    </div>
+    <div class="masthead__bar">
+      <a class="masthead__name" href="index.html">Jia’s Cellar</a>
+      <nav class="masthead__nav" aria-label="Site">
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="about.html">About</a>
+        <a href="download/Jiayang_He_Resume.pdf">Resume</a>
+        <a href="about.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Project region: carries its own skin via data-skin.
+       Every figure is a sheet from the project's Figma page, in images/uselace/. -->
+  <main id="main" class="project" data-skin="uselace">
+
+    <section class="hero">
+      <div class="hero__text">
+        <p class="hero__kicker"><span class="label label--filled">Case study</span><span class="mono">Plate II · Wearable · 2026</span></p>
+        <h1 class="hero__title">UseLace</h1>
+        <p class="hero__deck">A wearable interface that treats lace not as decoration but as circuitry. Hand gestures in a lace glove steer a 3D model in the browser.</p>
+      </div>
+
+      <figure class="fig sheet crop">
+        <a class="sheet__link" href="images/uselace/01-title.jpg"><img src="images/uselace/01-title.jpg" width="1800" height="1157" alt="UseLace title sheet: the name and a project statement set in serif type over a dark brown lace pattern"></a>
+        <figcaption>Title sheet, set on a lace ground.</figcaption>
+      </figure>
+
+      <dl class="titleblock">
+        <div><dt>Type</dt><dd>Wearable interface</dd></div>
+        <div><dt>Materials</dt><dd>SilexCore conductive paint, ACI SS1109 silver ink, TPU, lace stencils</dd></div>
+        <div><dt>Hardware</dt><dd>ESP32-C3, printed lace stretch sensors, 3.7 V battery</dd></div>
+        <div><dt>Software</dt><dd>BLE data streamer, WebSocket, Three.js front end</dd></div>
+      </dl>
+    </section>
+
+    <div class="body">
+
+      <aside class="index">
+        <p class="index__title label">Stages</p>
+        <ol id="stage-index">
+          <li><a href="#concept">Concept</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#material">Material experiment</a></li>
+          <li><a href="#stencil">Stencil experiment</a></li>
+          <li><a href="#ability">Ability test</a></li>
+          <li><a href="#circuit">Circuit design and CAD</a></li>
+          <li><a href="#fabrication">Fabrication</a></li>
+          <li><a href="#web">Web output</a></li>
+          <li><a href="#outcome">Presentation</a></li>
+        </ol>
+      </aside>
+
+      <div class="stages">
+
+        <section class="stage" id="concept">
+          <header class="stage__head">
+            <h2>Concept</h2>
+            <span class="tag">Ornament as circuitry</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>UseLace is a wearable interface project that reimagines electronic wearables through lace, treating ornament not as decoration but as circuitry.</p>
+              <p>Through a lace-based control glove, it challenges the masculine visual language of technical interfaces by turning a feminized ornamental surface into a functional system of control.</p>
+            </div>
+          </div>
+        </section>
+        <section class="stage" id="research">
+          <header class="stage__head">
+            <h2>Research</h2>
+            <span class="tag">Soft and stretchable</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Two lines of research ran side by side. The technical one: stretchable electronics. From search-and-rescue missions to orthopedic therapy, soft robots and wearable electronic devices show great promise, but making them functional and practical has proved challenging. In the lab of Prof. Rebecca Kramer-Bottiglio, researchers developed electronics that stretch substantially beyond their original shape, published in <i>Science Robotics</i>.</p>
+            </div>
+            <div class="stage__text">
+              <p>The aesthetic one: the lace glove itself, and how much of a hand it can cover while still reading as ornament.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/02-research.jpg"><img src="images/uselace/02-research.jpg" width="1800" height="1157" loading="lazy" alt="Research sheet: a stretchable circuit held between two hands, notes on flexible electronics research, and a lace glove"></a>
+              <figcaption>Stretchable electronics, and lace gloves as aesthetic reference.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="material">
+          <header class="stage__head">
+            <h2>Material experiment</h2>
+            <span class="tag">Conductive inks</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Two conductive materials were tested. SilexCore paint, on paper, with a conductivity of 2.0–4.0 Ω/sq at 20 µm layer thickness, 0.5–1.0 Ω/sq at 100 µm and 0.1–0.5 Ω/sq at 200 µm.</p>
+            </div>
+            <div class="stage__text">
+              <p>ACI SS1109, on TPU: a silver-filled conductor for printed interconnects on elastomeric substrates. After drying, the ink has excellent conductivity, elongation and flexibility.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/03-material.jpg"><img src="images/uselace/03-material.jpg" width="1800" height="1157" loading="lazy" alt="Material experiment sheet: a jar of SilexCore conductive paint and a painted paper circuit, ACI SS1109 ink with its datasheet, and an LED lit through ink printed on TPU"></a>
+              <figcaption>SilexCore paint on paper, ACI SS1109 on TPU.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="stencil">
+          <header class="stage__head">
+            <h2>Stencil experiment</h2>
+            <span class="tag">Printing lace</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Lace patterns were drawn as stencils, laser cut, and the ink printed through them. Each print was checked with an LED and a multimeter before moving on.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/04-stencil.jpg"><img src="images/uselace/04-stencil.jpg" width="1800" height="1157" loading="lazy" alt="Stencil experiment sheet: lace stencil files, the laser cutter, printed lace patterns, and testing them with an LED and a multimeter"></a>
+              <figcaption>Stencil files, laser cutting, printing and continuity tests.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="ability">
+          <header class="stage__head">
+            <h2>Ability test</h2>
+            <span class="tag">Lace as a stretch sensor</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The printed lace became a stretch sensor. Read through a voltage divider, its value changes as the lace stretches with the hand, which turns each band into a control.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/05-ability.jpg"><img src="images/uselace/05-ability.jpg" width="1800" height="1157" loading="lazy" alt="Ability test sheet: printed lace stretched over a hand, a hand-drawn voltage divider circuit with Arduino code, and serial values changing while stretching"></a>
+              <figcaption>Stretching the printed lace, the voltage divider, and the sensor values.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="circuit">
+          <header class="stage__head">
+            <h2>Circuit design and CAD</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Five lace sensors run down the fingers to an ESP32-C3 at the wrist, powered by a 3.7 V, 100 mAh battery. The wrist case was sketched, modelled and printed to hold the board and battery.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/06-circuit.jpg"><img src="images/uselace/06-circuit.jpg" width="1800" height="1157" loading="lazy" alt="Circuit design sheet: the glove circuit with five lace sensors and an ESP32-C3, sketches and CAD views of the wrist case, and the printed case"></a>
+              <figcaption>Glove circuit, case sketches, CAD and the printed case.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="fabrication">
+          <header class="stage__head">
+            <h2>Fabrication</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>Stencils laser cut, pattern printed, then the lace hand-sewn into the glove and fitted on the hand.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/07-fabrication.jpg"><img src="images/uselace/07-fabrication.jpg" width="1800" height="1157" loading="lazy" alt="Fabrication sheet: laser-cut stencils, printed lace patterns, hand sewing and the finished glove being fitted"></a>
+              <figcaption>Stencil laser cutting, pattern and printing, hand sewing, fitting.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="web">
+          <header class="stage__head">
+            <h2>Web output</h2>
+            <span class="tag">BLE to browser</span>
+          </header>
+          <div class="stage__grid">
+            <div class="stage__text">
+              <p>The glove streams its sensor values over BLE. A WebSocket passes them to the browser, where the front end turns each gesture into movement of a 3D model.</p>
+            </div>
+            <figure class="fig fig--wide sheet">
+              <a class="sheet__link" href="images/uselace/08-web.jpg"><img src="images/uselace/08-web.jpg" width="1800" height="1157" loading="lazy" alt="Web output sheet: BLE streamer code, WebSocket code, and two views of a 3D mechanical model in the browser"></a>
+              <figcaption>BLE data streamer, WebSocket, and the 3D front end.</figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="stage" id="outcome">
+          <header class="stage__head">
+            <h2>Presentation</h2>
+          </header>
+          <div class="stage__grid">
+            <div class="photos">
+              <figure class="fig photo">
+                <img src="images/uselace/final-1.jpg" width="1200" height="1600" loading="lazy" alt="A hand in the finished lace glove raised in front of a laptop showing a 3D mechanical model">
+                <figcaption>The lace glove steering the model.</figcaption>
+              </figure>
+              <figure class="fig photo">
+                <img src="images/uselace/final-2.jpg" width="1200" height="1600" loading="lazy" alt="The lace glove close to the laptop screen as the 3D model rotates">
+                <figcaption>Turning the hand turns the model.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /.stages -->
+    </div><!-- /.body -->
+
+    <nav class="project-nav" aria-label="Other projects">
+      <a class="project-nav__link" href="cdefgab.html">
+        <small class="mono">Previous</small>
+        <span>CDEFGAB</span>
+      </a>
+      <a class="project-nav__link project-nav__link--next" href="the-pulse.html">
+        <small class="mono">Next</small>
+        <span>The Pulse</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <footer class="colophon">
+    <dl class="titleblock">
+      <div class="titleblock__name"><dt>Jia’s Cellar</dt><dd>Jiayang He · ITP, NYU Tisch, New York</dd></div>
+      <div><dt>Sheet</dt><dd>04 of 07 · UseLace</dd></div>
+      <div><dt>Scale</dt><dd>1 : 1, worn</dd></div>
+      <div><dt>Drawn</dt><dd>J. He</dd></div>
+      <div><dt>Contact</dt><dd><a href="mailto:johnhe9378@gmail.com">johnhe9378@gmail.com</a></dd></div>
+    </dl>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
